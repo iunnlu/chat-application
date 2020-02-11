@@ -1,0 +1,34 @@
+.create-user-card{
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 21px 2px rgba(0,0,0,0.75);
+    margin-top: 280px;
+    margin-left: 20%;
+    margin-right: 20%;
+    .create-user-container{
+        padding: 10px 70px;  
+    }
+    .create-user-button{
+        text-align: right;
+    }
+    .create-user-input{
+        background-color: white;
+    }
+    .create-user-form-control{
+        border-left: 0px;
+        margin-left: -10px;
+    }
+    .create-user-form-control:focus{
+        box-shadow: none;
+        border-color: #CED4DA;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .create-user-card{
+        margin-left: 5%;
+        margin-right: 5%;
+        .create-user-container{
+            padding: 10px 20px;  
+        }
+    }
+}

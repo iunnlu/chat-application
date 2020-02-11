@@ -1,0 +1,20 @@
+.write-message-row{
+    margin-top: 5px;
+    .write-message-box{
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    .write-message-box-append{
+        border-color: black;
+    }
+    .write-message-box:focus{
+        box-shadow: none;
+        border-color: black;
+        .write-message-box-text{
+            border-color: black;
+        }   
+    }
+    .fa-paper-plane{
+        cursor: pointer;
+    }
+}

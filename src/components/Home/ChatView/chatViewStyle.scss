@@ -1,0 +1,21 @@
+.chat-view{
+    background-color: rgb(235, 228, 214);
+    border: 1px solid #eaeaea;
+    height: 400px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: -1px 0px 2px 1px rgba(253, 253, 253, 0.7);
+    overflow-y: scroll;
+    .single-message-box{
+        margin: 10px 0px;
+        background-color: #6eacad;
+        padding: 5px;
+        color: white;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        display:inline-block;
+    }
+    #message-user{
+        background-color: #509b77;
+    }
+}
