@@ -5,16 +5,30 @@ import { addUser } from '../../actions/addUser';
 import './createUserStyle.scss';
 
 class CreateUser extends React.Component {
-    state = { username: "", error: null }
+    state = { username: "", email: "", password: "", error: null }
     usernameChange = (event) => {
         this.setState({ username: event.target.value })
-}
+    }
+    passwordChange = (event) => {
+        this.setState({ password: event.target.value })
+    }
+    emailChange = (event) => {
+        this.setState({ email: event.target.value })
+    }
     createSubmit = (event) => {
         event.preventDefault()
-        if(this.state.username === ""){
+        if (this.state.username === "") {
             this.setState({ error: "Please enter a username!" })
-        }else{
-            this.props.addUser(this.state.username)
+        } else if (this.state.email === "") {
+            this.setState({ error: "Please enter a email! " })
+        } else if (this.state.password === "") {
+            this.setState({ password: "Please enter a password!" })
+        } else {
+            this.props.addUser({
+                username: this.state.username,
+                password: this.state.password,
+                email: this.state.email
+            })
         }
     }
     render() {
@@ -35,16 +49,50 @@ class CreateUser extends React.Component {
                                             aria-label="Username"
                                             aria-describedby="basic-addon1"
                                             className="create-user-form-control"
-                                            onChange = {this.usernameChange}
+                                            onChange={this.usernameChange}
                                         />
                                     </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    { this.props.pushError != undefined
-                                        ?   <h6 style={{color: "red", margin:"0px", position:"relative", top:"-10px"}}>{this.props.pushError}</h6>
-                                        :   <h6 style={{color: "red", margin:"0px", position:"relative", top:"-10px"}}>{this.state.error}</h6>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="create-user-input" id="basic-addon1"><i class="fa fa-user"></i></InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <FormControl
+                                            placeholder="E-Mail"
+                                            aria-label="Email"
+                                            aria-describedby="basic-addon1"
+                                            className="create-user-form-control"
+                                            type="text"
+                                            onChange={this.emailChange}
+                                        />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="create-user-input" id="basic-addon1"><i class="fa fa-user"></i></InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <FormControl
+                                            placeholder="Password"
+                                            aria-label="Password"
+                                            aria-describedby="basic-addon1"
+                                            className="create-user-form-control"
+                                            type="password"
+                                            onChange={this.passwordChange}
+                                        />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    {this.props.pushError != undefined
+                                        ? <h6 style={{ color: "red", margin: "0px", position: "relative", top: "-10px" }}>{this.props.pushError}</h6>
+                                        : <h6 style={{ color: "red", margin: "0px", position: "relative", top: "-10px" }}>{this.state.error}</h6>
                                     }
                                 </Col>
                             </Row>
@@ -60,7 +108,7 @@ class CreateUser extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return({
+    return ({
         username: state.createUser.username,
         pushError: state.createUser.error
     })

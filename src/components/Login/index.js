@@ -1,22 +1,29 @@
 import React from 'react';
 import { Container, Card, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
 import history from '../history'
-import {loginUser} from '../../actions/loginUser';
-import {connect} from 'react-redux';
+import { loginUser } from '../../actions/loginUser';
+import { connect } from 'react-redux';
 import './loginStyle.scss'
 
 class Login extends React.Component {
-    state = {username: '', error: null}
+    state = { email: '', password: '', error: null }
     loginSubmit = (event) => {
         event.preventDefault();
-        if(this.state.username === ''){
+        if (this.state.email === '') {
 
-        }else{
-            this.props.loginUser(this.state.username);
+        } else {
+            this.setState({ error: '' })
+            this.props.loginUser({
+                email: this.state.email,
+                password: this.state.password
+            });
         }
     }
-    usernameChange = (event) => {
-        this.setState({ username: event.target.value })
+    emailChange = (event) => {
+        this.setState({ email: event.target.value })
+    }
+    passwordChange = (event) => {
+        this.setState({ password: event.target.value })
     }
     render() {
         return (
@@ -32,18 +39,35 @@ class Login extends React.Component {
                                             <InputGroup.Text className="login-input" id="basic-addon1"><i class="fa fa-user"></i></InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <FormControl
-                                            placeholder="Username"
-                                            aria-label="Username"
+                                            placeholder="Email"
+                                            aria-label="Email"
                                             aria-describedby="basic-addon1"
                                             className="login-form-control"
-                                            onChange={this.usernameChange}
+                                            onChange={this.emailChange}
                                         />
                                     </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <h6 style={{color: "red", margin:"0px", position:"relative", top:"-10px"}}>{this.props.error}</h6>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="login-input" id="basic-addon1"><i class="fa fa-user"></i></InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <FormControl
+                                            placeholder="Password"
+                                            aria-label="Password"
+                                            aria-describedby="basic-addon1"
+                                            className="login-form-control"
+                                            type="password"
+                                            onChange={this.passwordChange}
+                                        />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <h6 style={{ color: "red", margin: "0px", position: "relative", top: "-10px" }}>{this.props.error}</h6>
                                 </Col>
                             </Row>
                             <Row>
@@ -67,9 +91,9 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return{
+    return {
         error: state.loginUser.error
     }
 }
 
-export default connect(mapStateToProps, {loginUser})(Login);
+export default connect(mapStateToProps, { loginUser })(Login);

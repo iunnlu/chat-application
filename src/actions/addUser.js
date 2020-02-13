@@ -1,20 +1,23 @@
-import {ADD_USER, ERROR} from './types';
+import {ADD_USER, CREATE_ERROR} from './types';
 import axios from 'axios';
 import history from '../components/history';
 
 export const addUser = formValues => dispatch => {
+    const {username, password, email} = formValues;
     axios.post('http://localhost:3001/users/create', {
-        username: formValues
+        username: username,
+        password: password,
+        email: email
     }).then((response) => {
         if(response.status === 200){
             dispatch({
-                type: ERROR,
-                payload: response.data.error_description
+                type: CREATE_ERROR,
+                payload: response.data.message
             })
         }else if(response.status === 201){
             dispatch({
                 type: ADD_USER,
-                payload: formValues
+                payload: username
             })
             history.push('/')
         }

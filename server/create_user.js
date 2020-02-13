@@ -1,6 +1,7 @@
 module.exports = function create_user() {
   const app = require('./index');
   const Chatkit = require('@pusher/chatkit-server');
+  const admin = require('./firebase_admin');
 
   const chatkit = new Chatkit.default({
     instanceLocator: process.env['INSTANCE_LOCATOR'],
@@ -8,25 +9,28 @@ module.exports = function create_user() {
   })
 
   app.post('/users/create', (req, res) => {
-    const { username } = req.body
-    chatkit
-      .createUser({
-        id: username,
-        name: username
+    const { username, password, email } = req.body
+    admin.auth().createUser({
+      uid: username,
+      email: email,
+      password: password
+    })
+      .then(function (userRecord) {
+        console.log('Successfully created new user:', userRecord.uid);
+        chatkit
+          .createUser({
+            id: username,
+            name: username
+          })
+          .then(() => res.send(201))
+          .catch(error => {
+            res.send(error)
+          })
       })
-      .then(() => res.send(201))
-      .catch(error => {
-        if (error.error === 'services/chatkit/user_already_exists') {
-          console.log('Users already exist!')
-          res.send(error)
-        } else {
-          res.status(error.status).json(error)
-        }
-      })
-  })
+      .catch(function (error) {
+        console.log('Error creating new user:', error);
+        res.send(error);
+      });
 
-  app.post('/authenticate', (req, res) => {
-    const authData = chatkit.authenticate({ userId: req.query.user_id })
-    res.status(authData.status).send(authData.body)
   })
 }
